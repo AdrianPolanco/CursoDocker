@@ -1,0 +1,103 @@
+C:\Users\adfer\Desktop\DockerPractica\getting-started\app>docker build -t getting-started .
+[+] Building 44.7s (13/13) FINISHED                                                                                                    docker:default
+ => [internal] load build definition from Dockerfile                                                                                             0.0s
+ => => transferring dockerfile: 191B                                                                                                             0.0s 
+ => [internal] load .dockerignore                                                                                                                0.0s 
+ => => transferring context: 2B                                                                                                                  0.0s 
+ => resolve image config for docker.io/docker/dockerfile:1                                                                                       3.5s 
+ => [auth] docker/dockerfile:pull token for registry-1.docker.io                                                                                 0.0s
+ => CACHED docker-image://docker.io/docker/dockerfile:1@sha256:39b85bbfa7536a5feceb7372a0817649ecb2724562a38360f4d6a7782a409b14                  0.0s
+ => [internal] load metadata for docker.io/library/node:18-alpine                                                                                0.5s 
+ => [auth] library/node:pull token for registry-1.docker.io                                                                                      0.0s
+ => [1/4] FROM docker.io/library/node:18-alpine@sha256:93d91deea65c9a0475507e8bc8b1917d6278522322f00c00b3ab09cab6830060                          0.0s
+ => [internal] load build context                                                                                                                0.0s 
+ => => transferring context: 8.06kB                                                                                                              0.0s 
+ => CACHED [2/4] WORKDIR /app                                                                                                                    0.0s 
+ => [3/4] COPY . .                                                                                                                               0.1s 
+ => [4/4] RUN yarn install --production                                                                                                         39.2s
+ => exporting to image                                                                                                                           1.1s 
+ => => exporting layers                                                                                                                          1.1s 
+ => => writing image sha256:2778be18f38122a1846265f5e2db67684181db4ce9e325d97f4252149cf5abef                                                     0.0s 
+ => => naming to docker.io/library/getting-started                                                                                               0.0s 
+
+What's Next?
+  View summary of image vulnerabilities and recommendations → docker scout quickview
+
+C:\Users\adfer\Desktop\DockerPractica\getting-started\app>docker run -dp 127.0.0.1:3000:3000 getting-started
+43d9dc4f326423058625dbb50fb1f453d19f50b8d3bc1d585fd5c7c6b010892b
+docker: Error response from daemon: driver failed programming external connectivity on endpoint sweet_antonelli (f15defdd30e80e9007daeee8bd10872934f3c3f841c63e94e5a78a22f2f599bb): Bind for 127.0.0.1:3000 failed: port is already allocated.
+
+C:\Users\adfer\Desktop\DockerPractica\getting-started\app>docker run -dp 127.0.0.1:3000:3000 getting-started
+1d391dcabbd3567275bfd2349a7746b0f34a23b29abde96f1cdc09618c8ab113
+docker: Error response from daemon: driver failed programming external connectivity on endpoint flamboyant_heisenberg (420dc82ef3bcd091d2e6f3ffd512e99e21f9a95572eaea2fc773d03277294dc8): Bind for 127.0.0.1:3000 failed: port is already allocated.
+
+C:\Users\adfer\Desktop\DockerPractica\getting-started\app>docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS                      NAMES
+1209dbfbbf0b   f292329bbba1   "docker-entrypoint.s…"   11 minutes ago   Up 11 minutes   127.0.0.1:3000->3000/tcp   sleepy_hugle
+
+C:\Users\adfer\Desktop\DockerPractica\getting-started\app>docker stop 1209
+1209
+
+C:\Users\adfer\Desktop\DockerPractica\getting-started\app>docker run -dp 127.0.0.1:3000:3000 getting-started
+6695b72f00e30c4b224731c26721367b7f30d019063eb7517d7adad8c852fb9e
+
+C:\Users\adfer\Desktop\DockerPractica\getting-started\app>docker image ls
+REPOSITORY                          TAG       IMAGE ID       CREATED             SIZE
+getting-started                     latest    2778be18f381   34 minutes ago      266MB
+<none>                              <none>    f292329bbba1   About an hour ago   266MB
+docker/labs-debug-tools-extension   0.0.35    e30b49a6fe19   6 days ago          1.63GB
+
+C:\Users\adfer\Desktop\DockerPractica\getting-started\app>docker login -u adriandeveloper06
+Password: 
+Login Succeeded
+
+Logging in with your password grants your terminal complete access to your account.
+For better security, log in with a limited-privilege personal access token. Learn more at https://docs.docker.com/go/access-tokens/
+
+C:\Users\adfer\Desktop\DockerPractica\getting-started\app>docker tag getting-started adriandeveloper06/getting-started
+
+C:\Users\adfer\Desktop\DockerPractica\getting-started\app>docker push adriandeveloper06/getting-started
+Using default tag: latest
+The push refers to repository [docker.io/adriandeveloper06/getting-started]
+1f5438b3b2a6: Pushed
+8bddf52189fc: Pushed
+f54a75de397c: Pushed
+9f68b297c3a0: Mounted from library/node
+9f5873e20035: Mounted from library/node
+346a05841508: Mounted from library/node
+78a822fe2a2d: Mounted from library/node
+latest: digest: sha256:d73ae4cd1b61b2323421db63ad72aa05610ec0ec5db356b63956cfab4221b45a size: 1787
+
+C:\Users\adfer\Desktop\DockerPractica\getting-started\app>docker ps
+CONTAINER ID   IMAGE             COMMAND                  CREATED          STATUS          PORTS                      NAMES
+6695b72f00e3   getting-started   "docker-entrypoint.s…"   59 minutes ago   Up 59 minutes   127.0.0.1:3000->3000/tcp   keen_euler
+
+C:\Users\adfer\Desktop\DockerPractica\getting-started\app>docker stop 669
+669                                                                    
+
+C:\Users\adfer\Desktop\DockerPractica\Persistencia>docker run -d ubuntu bash -c "shuf -i 1-10000 -n 1 -o /data.txt && tail -f /dev/null"
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+3153aa388d02: Pull complete
+Digest: sha256:0bced47fffa3361afa981854fcabcd4577cd43cebbb808cea2b1f33a3dd7f508
+Status: Downloaded newer image for ubuntu:latest
+400c79435b38219e33e2b00f5c2c66f2ce3d87690d806feb056d5ecd2323a00f
+
+C:\Users\adfer\Desktop\DockerPractica\Persistencia>docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS     NAMES
+400c79435b38   ubuntu    "bash -c 'shuf -i 1-…"   29 seconds ago   Up 27 seconds             goofy_jackson
+
+C:\Users\adfer\Desktop\DockerPractica\Persistencia>docker exec 400 cat /data.txt 
+9448
+
+C:\Users\adfer\Desktop\DockerPractica\Persistencia>docker run -it ubuntu ls /
+bin  boot  dev  etc  home  lib  lib32  lib64  libx32  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+
+C:\Users\adfer\Desktop\DockerPractica\Persistencia>docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS     NAMES
+400c79435b38   ubuntu    "bash -c 'shuf -i 1-…"   16 minutes ago   Up 16 minutes             goofy_jackson
+
+C:\Users\adfer\Desktop\DockerPractica\Persistencia>docker rm -f 400
+400
+
+docker run -dp 127.0.0.1:3000:3000 -w /app --mount "type=bind,src=$pwd,target=/app" node:18-alpine sh -c "yarn install && yarn run dev"

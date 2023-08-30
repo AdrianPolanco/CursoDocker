@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+    my-db:
+        container_name: my-postgres-db
+        image: postgres:15.1
+        volumes:
+            #- compose-db:/var/lib/postgresql/data # ejemplo
+            - ./LabDocker:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=LaboratorioDB
+            - POSTGRES_USER=adrian
+            - POSTGRES_PASSWORD=0611
+
+    my-pgAdmin:
+        depends_on:
+            - my-db
+        image: dpage/pgadmin4:6.17
+        ports:
+            - "3000:80"
+        volumes:
+            - ./LabPgAdmin:/var/lib/pgadmin
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=adferrer@gmail.com
+            - PGADMIN_DEFAULT_PASSWORD=0611
+volumes:
+    compose-db:
+        external: true
